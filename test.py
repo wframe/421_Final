@@ -14,7 +14,6 @@ def test_tag_performance(directory):
     mefis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\medium')
     hifis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\high')
     loscore = 0
-    print(lofis)
     for file in lofis:
         filescore = 0
         text = open(file,'r')
