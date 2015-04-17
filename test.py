@@ -17,8 +17,8 @@ def test_tag_performance(directory):
     for file in lofis:
         filescore = 0
         text = open(file,'r')
-        for sents in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(file.read())
+        for sent in gr.get_sentences(text.read()):
+            tags = pos.get_sentence_tags(sent)
             filescore += pos_score(tags)
         loscore += filescore
     print("low pos score: " + str(loscore))
@@ -26,8 +26,8 @@ def test_tag_performance(directory):
     for file in mefis:
         filescore = 0
         text = open(file,'r')
-        for sents in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(file.read())
+        for sent in gr.get_sentences(text.read()):
+            tags = pos.get_sentence_tags(sent)
             filescore += pos_score(tags)
         mescore += filescore
     print("med pos score: " + str(mescore))
@@ -36,11 +36,11 @@ def test_tag_performance(directory):
     for file in hifis:
         filescore = 0
         text = open(file,'r')
-        for sents in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(file.read())
+        for sent in gr.get_sentences(text.read()):
+            tags = pos.get_sentence_tags(sent)
             filescore += pos_score(tags)
         hiscore += filescore
-    print("med pos score: " + str(hiscore))        
+    print("hi pos score: " + str(hiscore))        
         
 def pos_score(tags):
     errors = 0    

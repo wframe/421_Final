@@ -67,3 +67,4 @@ if __name__ == '__main__':
 			print '	sentences '
 			for sent in get_sentences(f.read()):
 				print "	{0}".format(sent)
+    
