@@ -24,8 +24,11 @@ def get_sentences(text):
 			per_count = 0
 			sent += char
 		elif char in punc and char != '.' and sent.strip() != "":
-			sents.append(sent)
-			sent = ""
+			if not in_quote:
+				sents.append(sent)
+				sent = ""
+			else:
+				sent += char
 		elif char == '.':
 			per_count += 1
 			if per_count == 3:
