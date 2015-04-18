@@ -3,6 +3,7 @@ import file_io as fi
 import pos
 import grader as gr
 from itertools import tee, islice, chain, izip
+from os import path
 #http://stackoverflow.com/questions/1011938/python-previous-and-next-values-inside-a-loop
 def previous_and_next(some_iterable):
     prevs, items, nexts = tee(some_iterable, 3)
@@ -10,61 +11,36 @@ def previous_and_next(some_iterable):
     nexts = chain(islice(nexts, 1, None), [None])
     return izip(prevs, items, nexts)
     
-def test_tag_performance(directory):
-    lofis = fi.recGetTextFiles(path.abspath(r'essays\original\low'))
-    mefis = fi.recGetTextFiles(path.abspath(r'essays\original\medium'))
-    hifis = fi.recGetTextFiles(path.abspath(r'essays\original\high'))
-    lo_agreementscore = 0.0
-    lo_verbscore = 0.0
-    for file in lofis:
-        words = 0
-        agreementscore = 0.0
-        verbscore = 0.0
-        ftext = open(file,'r')
-        text = ftext.read()
-        for sent in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-            words+=len(tags)
-        lo_agreementscore += agreementscore/words
-        lo_verbscore += verbscore/words
-    print("low agreement score: " + str(lo_agreementscore))
-    print("low verb score: " + str(lo_verbscore))
-    med_agreementscore = 0.0
-    med_verbscore = 0.0
-    for file in mefis:
-        words = 0
-        agreementscore = 0.0
-        verbscore = 0.0
-        ftext = open(file,'r')
-        text = ftext.read()
-        for sent in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-            words+=len(tags)
-        med_agreementscore += agreementscore/words
-        med_verbscore += verbscore/words
-    print("med agreement score: " + str(med_agreementscore))
-    print("med verb score: " + str(med_verbscore))
-    hi_agreementscore = 0.0
-    hi_verbscore = 0.0
-    for file in hifis:
-        words = 0
-        agreementscore = 0.0
-        verbscore = 0.0
-        ftext = open(file,'r')
-        text = ftext.read()
-        for sent in gr.get_sentences(text):
-            tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-            words += len(tags)
-        hi_agreementscore += agreementscore/words
-        hi_verbscore += verbscore/words
-    print("hi agreement score: " + str(hi_agreementscore))
-    print("hi verb score: " + str(hi_verbscore))     
+def test_tag_performance():
+    fis_arr = [fi.recGetTextFiles(path.abspath(r'essays\original\low')),
+                fi.recGetTextFiles(path.abspath(r'essays\original\medium')),
+                fi.recGetTextFiles(path.abspath(r'essays\original\high'))]
+    agreementscores = []
+    verbscores = []
+    for fis in fis_arr:
+        ovr_agreementscore = 0.0
+        ovr_verbscore = 0.0
+        for file in fis:
+            words = 0
+            agreementscore = 0.0
+            verbscore = 0.0
+            ftext = open(file,'r')
+            text = ftext.read()
+            for sent in gr.get_sentences(text):
+                tags = pos.get_sentence_tags(sent)
+                agreementscore += pos_agreement(tags)
+                verbscore += pos_verbs(tags)
+                words+=len(tags)
+            ovr_agreementscore += agreementscore/len(text)
+            ovr_verbscore += verbscore/len(text)
+        agreementscores.append(ovr_agreementscore)
+        verbscores.append(ovr_verbscore)
+    print("low agreement score: " + str(agreementscores[0]))
+    print("low verb score: " + str(verbscores[0]))
+    print("med agreement score: " + str(agreementscores[1]))
+    print("med verb score: " + str(verbscores[1]))
+    print("high agreement score: " + str(agreementscores[2]))
+    print("high verb score: " + str(verbscores[2]))    
         
 def pos_agreement(tags):
     errors = 0
