@@ -46,10 +46,10 @@ def pos_agreement(tags):
     errors = 0
 
     for previous, current, nxt in  previous_and_next(tags):
-        if current == "NN":
+        if current == "NN" and previous != "DT":
             if nxt == "VBP" or nxt == "VBN":
                 errors += 1
-        if current == "NNS":
+        if current == "NNS" and previous != "DT":
             if nxt == "VBZ" or nxt == "VBD":
                 errors += 1
     return errors
