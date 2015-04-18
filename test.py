@@ -23,10 +23,10 @@ def test_tag_performance(directory):
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-        lo_agreementscore += agreementscore/len(text)
-        lo_verbscore += agreementscore/len(text)
+            agreementscore += pos_agreement(tags)/len(tags)
+            verbscore += pos_verbs(tags)/len(tags)
+        lo_agreementscore += agreementscore
+        lo_verbscore += agreementscore
     print("low agreement score: " + str(lo_agreementscore))
     print("low verb score: " + str(lo_verbscore))
     med_agreementscore = 0.0
@@ -38,10 +38,10 @@ def test_tag_performance(directory):
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-        med_agreementscore += agreementscore/len(text)
-        med_verbscore += agreementscore/len(text)
+            agreementscore += pos_agreement(tags)/len(tags)
+            verbscore += pos_verbs(tags)/len(tags)
+        med_agreementscore += agreementscore
+        med_verbscore += agreementscore
     print("med agreement score: " + str(med_agreementscore))
     print("med verb score: " + str(med_verbscore))
     hi_agreementscore = 0.0
@@ -53,10 +53,10 @@ def test_tag_performance(directory):
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)
-            verbscore += pos_verbs(tags)
-        hi_agreementscore += agreementscore/len(text)
-        hi_verbscore += agreementscore/len(text)
+            agreementscore += pos_agreement(tags)/len(tags)
+            verbscore += pos_verbs(tags)/len(tags)
+        hi_agreementscore += agreementscore
+        hi_verbscore += agreementscore
     print("hi agreement score: " + str(hi_agreementscore))
     print("hi verb score: " + str(hi_verbscore))     
         
