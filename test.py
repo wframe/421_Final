@@ -43,22 +43,27 @@ def test_tag_performance():
     print("high verb score: " + str(verbscores[2]))    
         
 def pos_agreement(tags):
-    errors = 0
-
-    for previous, current, nxt in  previous_and_next(tags):
-        if current == "NN" and previous != "DT":
-            if nxt == "VBP" or nxt == "VBN":
-                errors += 1
-        if current == "NNS" and previous != "DT":
-            if nxt == "VBZ" or nxt == "VBD":
-                errors += 1
-        if current == "NNP":
-            if nxt == "VBP":
-                errors += 1
-        if current == "NNPS":
-            if nxt == "VBZ":
-                errors += 1
-    return errors
+    errs = 0
+    verb_err = []
+    verb_tags = ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]
+    prev = ""
+    for curr in tags:
+        if prev:
+            if next_verb != []:
+                if curr in verb_tags:
+                    if curr in verb_err:
+                        errs +=  1
+                    verb_err = []
+            elif curr == "NN" and prev != "DT":
+                verb_err = ["VBP", "VBN"]
+            elif curr == "NNS" and prev != "DT":
+                verb_err = ["VBZ", "VBD"]
+            elif curr == "NNP":
+                verb_err = ["VBP"]
+            elif curr == "NNPS":
+                verb_err = ["VBZ"]
+        prev = curr
+    return errs
     
 def pos_verbs(tags):
     errors = 0
