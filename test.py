@@ -52,6 +52,12 @@ def pos_agreement(tags):
         if current == "NNS" and previous != "DT":
             if nxt == "VBZ" or nxt == "VBD":
                 errors += 1
+        if current == "NNP":
+            if nxt == "VBP":
+                errors += 1
+        if current == "NNPS":
+            if nxt == "VBZ":
+                errors += 1
     return errors
     
 def pos_verbs(tags):
