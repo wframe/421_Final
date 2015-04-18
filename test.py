@@ -49,7 +49,7 @@ def pos_agreement(tags):
     prev = ""
     for curr in tags:
         if prev:
-            if next_verb != []:
+            if verb_err != []:
                 if curr in verb_tags:
                     if curr in verb_err:
                         errs +=  1
