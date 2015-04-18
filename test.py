@@ -44,11 +44,19 @@ def test_tag_performance():
         
 def pos_agreement(tags):
     errs = 0
+    verb_count = 0
     verb_err = []
     verb_tags = ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]
     prev = ""
     for curr in tags:
         if prev:
+            if curr in verb_tags:
+                verb_count += 1
+            elif curr == "CC":
+                if verb_count == 0:
+                    errs += 1
+                verb_count = 0
+
             if verb_err != []:
                 if curr in verb_tags:
                     if curr in verb_err:
@@ -67,6 +75,9 @@ def pos_agreement(tags):
             elif prev == "PRP$" and (curr != "NN" and curr != "NNS"):
                 errs += 1
         prev = curr
+
+    if verb_count == 0:
+        errs += 1
     return errs
     
 def pos_verbs(tags):
