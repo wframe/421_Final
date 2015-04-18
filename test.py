@@ -31,8 +31,8 @@ def test_tag_performance():
                 agreementscore += pos_agreement(tags)
                 verbscore += pos_verbs(tags)
                 words+=len(tags)
-            ovr_agreementscore += agreementscore/len(text)
-            ovr_verbscore += verbscore/len(text)
+            ovr_agreementscore += agreementscore/words
+            ovr_verbscore += verbscore/words
         agreementscores.append(ovr_agreementscore)
         verbscores.append(ovr_verbscore)
     print("low agreement score: " + str(agreementscores[0]))
@@ -67,7 +67,7 @@ def pos_agreement(tags):
                 verb_err = ["VBZ"]
             elif prev == "DT" and (curr != "NN" and curr != "NNS"):
                 errs += 1
-            elif prev == "PRP$" and (curr != "NN" and curr != "NNS"):
+            elif prev == "PRP$" and curr not in ["NN", "NNS", "JJ", "JJR", "JJS"]:
                 errs += 1
         prev = curr
     if not hasNoun:
