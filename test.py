@@ -11,9 +11,9 @@ def previous_and_next(some_iterable):
     return izip(prevs, items, nexts)
     
 def test_tag_performance(directory):
-    lofis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\low')
-    mefis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\medium')
-    hifis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\high')
+    lofis = fi.recGetTextFiles(path.abspath(r'essays\original\low'))
+    mefis = fi.recGetTextFiles(path.abspath(r'essays\original\medium'))
+    hifis = fi.recGetTextFiles(path.abspath(r'essays\original\high'))
     lo_agreementscore = 0.0
     lo_verbscore = 0.0
     for file in lofis:
