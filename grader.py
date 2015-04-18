@@ -1,70 +1,53 @@
 from spellcheck import correct, words
+from grammarcheck import get_sentences
+from test import pos_agreement, pos_verbs
 from os import walk, path
+import sys
+import pos
 
-essay_path = 'essays/original/low/'
+essay_path = 'essays/test'
 essay_path = path.abspath(essay_path)
 files = []
 
-def get_sentences(text):
-	sents = []
-	punc = ['.', '?', '!']
-	sent = ""
-	per_count = 0
-	in_quote = False
-	for char in text:
-		if char not in punc:
-			if per_count == 1:
-				sent += '.'
-				if not in_quote:
-					sents.append(sent)
-					sent = ""
-			if char == '"':
-				in_quote = not in_quote
+def process_file(file_path):
+	misspelled = 0
+	misspellings = []
+	ovr_agreementscore = 0.0
+	ovr_verbscore = 0.0
+	with open(file_path, 'r') as f:
+		# get misspellings
+		sents = get_sentences(f.read())
+		for sent in sents:
+			for word in words(sent):
+				if len(word) > 0 and correct(word) != word:
+					misspellings.append(word)
+					misspelled += 1
 
-			per_count = 0
-			sent += char
-		elif char in punc and char != '.' and sent.strip() != "":
-			if not in_quote:
-				sents.append(sent)
-				sent = ""
-			else:
-				sent += char
-		elif char == '.':
-			per_count += 1
-			if per_count == 3:
-				# this is an ellipses
-				sent += "..."
-			elif per_count > 3:
-				# this is some malformed ellipses
-				print "malformed ellipses found"
-				sent += '.'
-				sents.append(sent)
-				sent = ""
-	if not sent.strip() == "":
-		sents.append(sent)
-
-	return sents
+		# get agreemnet & verb scores
+		word_count = 0
+		agreementscore = 0.0
+		verbscore = 0.0
+		for sent in sents:
+			tags = pos.get_sentence_tags(sent)
+			agreementscore += pos_agreement(tags)
+			verbscore += pos_verbs(tags)
+			word_count+=len(tags)
+		agreementscore /= word_count
+		verbscore/= word_count
+	
+	return (misspelled, agreementscore, verbscore)
 
 if __name__ == '__main__':
+	if len(sys.argv) > 1:
+		essay_path = path.abspath(sys.argv[1])
+
 	for (dirpath, dirnames, filenames) in walk(essay_path):
 		files.extend(filenames)
 		break
 
-	do_one = True
 	for fname in files:
 		print '{0}'.format(fname)
 		misspelled = 0
 		file_path = essay_path + '\\' + fname
-		with open(file_path, 'r') as f:
-			for line in f:
-				for word in words(line):
-					if len(word) > 0 and correct(word) != word:
-						misspelled = misspelled + 1
-		print '	{0} spelling mistakes'.format(misspelled)
-
-
-		with open(file_path, 'r') as f:
-			print '	sentences '
-			for sent in get_sentences(f.read()):
-				print "	{0}".format(sent)
-    
+		misspelled, agreement, verb = process_file(file_path)
+		print "\t 1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}".format(misspelled, agreement, verb)

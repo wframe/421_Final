@@ -1,7 +1,7 @@
 from __future__ import division
 import file_io as fi
 import pos
-import grader as gr
+import grammarcheck as gr
 from itertools import tee, islice, chain, izip
 from os import path
 #http://stackoverflow.com/questions/1011938/python-previous-and-next-values-inside-a-loop
