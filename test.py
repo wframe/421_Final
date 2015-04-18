@@ -1,6 +1,6 @@
 from __future__ import division
 import file_io as fi
-import pos
+import pos, math
 import grader as gr
 from itertools import tee, islice, chain, izip
 from os import path
@@ -18,6 +18,7 @@ def test_tag_performance():
     agreementscores = []
     verbscores = []
     for fis in fis_arr:
+        taglist = []
         ovr_agreementscore = 0.0
         ovr_verbscore = 0.0
         for file in fis:
@@ -28,11 +29,13 @@ def test_tag_performance():
             text = ftext.read()
             for sent in gr.get_sentences(text):
                 tags = pos.get_sentence_tags(sent)
+                taglist.append(tags)
                 agreementscore += pos_agreement(tags)
                 verbscore += pos_verbs(tags)
                 words+=len(tags)
             ovr_agreementscore += agreementscore/words
             ovr_verbscore += verbscore/words
+        ovr_verbscore += pos_global_verbs(taglist)*10
         agreementscores.append(ovr_agreementscore)
         verbscores.append(ovr_verbscore)
     print("low agreement score: " + str(agreementscores[0]))
@@ -55,7 +58,7 @@ def pos_agreement(tags):
             if verb_err != []:
                 if curr in verb_tags:
                     if curr in verb_err:
-                        errs +=  1
+                        errs +=  10
                     verb_err = []
             elif curr == "NN" and prev != "DT":
                 verb_err = ["VBP", "VBN"]
@@ -79,21 +82,29 @@ def pos_verbs(tags):
     present = True
     if "VBN" in tags or "VBD" in tags:
         present = False
-
     verb_count = 0
     pres_tags = ['VB','VBZ','VBP','VBG']
     verb_tags = ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]
     for previous, current, nxt in  previous_and_next(tags):
         if not present and current in pres_tags:
             errors += 1
-
         if current in verb_tags:
             verb_count += 1
         elif current == "CC":
             if verb_count == 0:
                 errors += 1
             verb_count = 0
-
     if verb_count == 0:
         errors += 1
     return errors
+
+def pos_global_verbs(taglists):
+    verbs = 0
+    pastverbs = 0
+    for taglist in taglists:
+        for tag in taglist:
+            if tag in ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]:
+                verbs += 1
+                if tag not in ['VB','VBZ','VBP','VBG']:
+                    pastverbs += 1
+    return abs((pastverbs/verbs)-1)
