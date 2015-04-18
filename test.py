@@ -14,36 +14,65 @@ def test_tag_performance(directory):
     lofis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\low')
     mefis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\medium')
     hifis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\high')
-    loscore = 0
+    lo_agreementscore = 0.0
+    lo_verbscore = 0.0
     for file in lofis:
-        filescore = 0.0
+        agreementscore = 0.0
+        verbscore = 0.0
         ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            filescore += pos_score(tags)/len(text)
-        loscore += filescore
-    print("low pos score: " + str(loscore))
-    mescore = 0
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+        lo_agreementscore += agreementscore/len(text)
+        lo_verbscore += agreementscore/len(text)
+    print("low agreement score: " + str(lo_agreementscore))
+    print("low verb score: " + str(lo_verbscore))
+    med_agreementscore = 0.0
+    med_verbscore = 0.0
     for file in mefis:
-        filescore = 0.0
+        agreementscore = 0.0
+        verbscore = 0.0
+        ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            filescore += pos_score(tags)/len(text)
-        mescore += filescore
-    print("med pos score: " + str(mescore))
-    hiscore = 0
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+        med_agreementscore += agreementscore/len(text)
+        med_verbscore += agreementscore/len(text)
+    print("med agreement score: " + str(med_agreementscore))
+    print("med verb score: " + str(med_verbscore))
+    hi_agreementscore = 0.0
+    hi_verbscore = 0.0
     for file in hifis:
-        filescore = 0.0
+        agreementscore = 0.0
+        verbscore = 0.0
+        ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            filescore += pos_score(tags)/len(text)
-        hiscore += filescore
-    print("hi pos score: " + str(hiscore))        
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+        hi_agreementscore += agreementscore/len(text)
+        hi_verbscore += agreementscore/len(text)
+    print("hi agreement score: " + str(hi_agreementscore))
+    print("hi verb score: " + str(hi_verbscore))     
         
-def pos_score(tags):
+def pos_agreement(tags):
+    errors = 0
+
+    for previous, current, nxt in  previous_and_next(tags):
+        if current == "NN":
+            if nxt == "VBP" or nxt == "VBN":
+                errors += 1
+        if current == "NNS":
+            if nxt == "VBZ" or nxt == "VBD":
+                errors += 1
+    return errors
+    
+def pos_verbs(tags):
     errors = 0
     present = True
     if "VBN" in tags or "VBD" in tags:
@@ -52,15 +81,6 @@ def pos_score(tags):
     for previous, current, nxt in  previous_and_next(tags):
         if not present and current in presTags:
             errors += 1
-        if current == "NN":
-            if nxt == "VBP" or nxt == "VBN":
-                errors += 1
-        if current == "NNS":
-            if nxt == "VBZ" or nxt == "VBD":
-                errors += 1
-        if current == ",":
-            if (previous == "NN" and nxt == "NNS") or (previous == "NNS" and nxt == "NN"):
-                errors += 1
     return errors
         
         
