@@ -35,9 +35,10 @@ def process_file(file_path):
 		agreementscore /= word_count
 		verbscore/= word_count
 	
-	return (misspelled, agreementscore, verbscore)
+	return (misspelled, agreementscore, verbscore, len(sents))
 
 if __name__ == '__main__':
+	print "main"
 	if len(sys.argv) > 1:
 		essay_path = path.abspath(sys.argv[1])
 
@@ -49,5 +50,5 @@ if __name__ == '__main__':
 		print '{0}'.format(fname)
 		misspelled = 0
 		file_path = essay_path + '\\' + fname
-		misspelled, agreement, verb = process_file(file_path)
-		print "\t 1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}".format(misspelled, agreement, verb)
+		misspelled, agreement, verb, sents = process_file(file_path)
+		print "\t1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}\n\t3a (sentence count): {3}".format(misspelled, agreement, verb, sents)
