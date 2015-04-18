@@ -1,3 +1,4 @@
+from __future__ import division
 import file_io as fi
 import pos
 import grader as gr
@@ -14,35 +15,32 @@ def test_tag_performance(directory):
     mefis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\medium')
     hifis = fi.recGetTextFiles(r'C:\Users\William\CS421Proj\421_Final\essays\original\high')
     loscore = 0
-#==============================================================================
-#     for file in lofis:
-#         filescore = 0
-#         text = open(file,'r')
-#         for sent in gr.get_sentences(text.read()):
-#             tags = pos.get_sentence_tags(sent)
-#             filescore += pos_score(tags)
-#         loscore += filescore
-#     print("low pos score: " + str(loscore))
-#     mescore = 0
-#     for file in mefis:
-#         filescore = 0
-#         text = open(file,'r')
-#         for sent in gr.get_sentences(text.read()):
-#             tags = pos.get_sentence_tags(sent)
-#             filescore += pos_score(tags)
-#         mescore += filescore
-#     print("med pos score: " + str(mescore))
-#==============================================================================
-
+    for file in lofis:
+        filescore = 0.0
+        ftext = open(file,'r')
+        text = ftext.read()
+        for sent in gr.get_sentences(text):
+            tags = pos.get_sentence_tags(sent)
+            filescore += pos_score(tags)/len(text)
+        loscore += filescore
+    print("low pos score: " + str(loscore))
+    mescore = 0
+    for file in mefis:
+        filescore = 0.0
+        text = ftext.read()
+        for sent in gr.get_sentences(text):
+            tags = pos.get_sentence_tags(sent)
+            filescore += pos_score(tags)/len(text)
+        mescore += filescore
+    print("med pos score: " + str(mescore))
     hiscore = 0
     for file in hifis:
-        filescore = 0
-        text = open(file,'r')
-        for sent in gr.get_sentences(text.read()):
+        filescore = 0.0
+        text = ftext.read()
+        for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            filescore += pos_score(tags)
+            filescore += pos_score(tags)/len(text)
         hiscore += filescore
-        print(filescore)
     print("hi pos score: " + str(hiscore))        
         
 def pos_score(tags):
@@ -55,10 +53,10 @@ def pos_score(tags):
         if not present and current in presTags:
             errors += 1
         if current == "NN":
-            if nxt == "VBP":
+            if nxt == "VBP" or nxt == "VBN":
                 errors += 1
         if current == "NNS":
-            if nxt == "VBZ":
+            if nxt == "VBZ" or nxt == "VBD":
                 errors += 1
         if current == ",":
             if (previous == "NN" and nxt == "NNS") or (previous == "NNS" and nxt == "NN"):
