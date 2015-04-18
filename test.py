@@ -17,46 +17,52 @@ def test_tag_performance(directory):
     lo_agreementscore = 0.0
     lo_verbscore = 0.0
     for file in lofis:
+        words = 0
         agreementscore = 0.0
         verbscore = 0.0
         ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)/len(tags)
-            verbscore += pos_verbs(tags)/len(tags)
-        lo_agreementscore += agreementscore
-        lo_verbscore += agreementscore
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+            words+=len(tags)
+        lo_agreementscore += agreementscore/words
+        lo_verbscore += verbscore/words
     print("low agreement score: " + str(lo_agreementscore))
     print("low verb score: " + str(lo_verbscore))
     med_agreementscore = 0.0
     med_verbscore = 0.0
     for file in mefis:
+        words = 0
         agreementscore = 0.0
         verbscore = 0.0
         ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)/len(tags)
-            verbscore += pos_verbs(tags)/len(tags)
-        med_agreementscore += agreementscore
-        med_verbscore += agreementscore
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+            words+=len(tags)
+        med_agreementscore += agreementscore/words
+        med_verbscore += verbscore/words
     print("med agreement score: " + str(med_agreementscore))
     print("med verb score: " + str(med_verbscore))
     hi_agreementscore = 0.0
     hi_verbscore = 0.0
     for file in hifis:
+        words = 0
         agreementscore = 0.0
         verbscore = 0.0
         ftext = open(file,'r')
         text = ftext.read()
         for sent in gr.get_sentences(text):
             tags = pos.get_sentence_tags(sent)
-            agreementscore += pos_agreement(tags)/len(tags)
-            verbscore += pos_verbs(tags)/len(tags)
-        hi_agreementscore += agreementscore
-        hi_verbscore += agreementscore
+            agreementscore += pos_agreement(tags)
+            verbscore += pos_verbs(tags)
+            words += len(tags)
+        hi_agreementscore += agreementscore/words
+        hi_verbscore += verbscore/words
     print("hi agreement score: " + str(hi_agreementscore))
     print("hi verb score: " + str(hi_verbscore))     
         
