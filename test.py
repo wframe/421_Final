@@ -47,7 +47,10 @@ def pos_agreement(tags):
     prev = ""
     verb_err = []
     verb_tags = ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]
+    hasNoun  = False
     for curr in tags:
+        if not hasNoun and curr in ['NN','NNS','NNP','NNPS','PRP$','PRP']:
+            hasNoun = True
         if prev:
             if verb_err != []:
                 if curr in verb_tags:
@@ -67,7 +70,8 @@ def pos_agreement(tags):
             elif prev == "PRP$" and (curr != "NN" and curr != "NNS"):
                 errs += 1
         prev = curr
-
+    if not hasNoun:
+        errs += 1
     return errs
     
 def pos_verbs(tags):
