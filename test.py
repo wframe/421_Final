@@ -64,6 +64,8 @@ def pos_agreement(tags):
                 verb_err = ["VBZ"]
             elif prev == "DT" and (curr != "NN" and curr != "NNS"):
                 errs += 1
+            elif prev == "PRP$" and (curr != "NN" and curr != "NNS"):
+                errs += 1
         prev = curr
     return errs
     
