@@ -1,39 +1,44 @@
 from spellcheck import correct, words
-from grammarcheck import get_sentences
+from textblob 		  import TextBlob, Blobber
+from textblob.parsers import PatternParser
+from textblob.taggers import PatternTagger
 from test import pos_agreement, pos_verbs
 from os import walk, path
 import sys
 import pos
+import textcoherence as tc
 
-essay_path = 'essays/test'
+essay_path = 'essays/original/low'
 essay_path = path.abspath(essay_path)
 files = []
 
 def process_file(file_path):
-	misspelled = 0
-	misspellings = []
-	ovr_agreementscore = 0.0
-	ovr_verbscore = 0.0
-	with open(file_path, 'r') as f:
+    misspelled = 0
+    misspellings = []
+    ovr_agreementscore = 0.0
+    ovr_verbscore = 0.0
+    with open(file_path, 'r') as f:
 		# get misspellings
-		sents = get_sentences(f.read())
-		for sent in sents:
-			for word in words(sent):
-				if len(word) > 0 and correct(word) != word:
-					misspellings.append(word)
-					misspelled += 1
+        t = TextBlob(f.read())
+        sents = t.sentences 
+        for sent in sents:
+	        for word in sent.tokens:
+		        if len(word) > 0 and correct(word) != word:
+			        misspellings.append(word)
+			        misspelled += 1
 
 		# get agreemnet & verb scores
 		word_count = 0
 		agreementscore = 0.0
 		verbscore = 0.0
 		for sent in sents:
-			tags = pos.get_sentence_tags(sent)
+			tags = pos.get_sentence_tags(sent.string)
 			agreementscore += pos_agreement(tags)
 			verbscore += pos_verbs(tags)
-			word_count+=len(tags)
+			word_count+=len(tags)                  
 		agreementscore /= word_count
 		verbscore/= word_count
+        cohesion = tc.coherence(t)
 	
 	return (misspelled, agreementscore, verbscore, len(sents))
 
