@@ -7,9 +7,14 @@ def coherence(t):
     pcontext = collect_pronouns(t)
     pronoun_score = process_pronouns(pcontext, sentence_data)
     topic_score = topicality(t)
-    return pronoun_score
+    return pronoun_score, topic_score
 def topicality(t):
-    return 0
+    opinion = 0
+    for sent in t.sentences:
+        sentipol = sent.sentiment.polarity
+        sentisub = sent.sentiment.subjectivity        
+        opinion += sentipol + sentisub
+    return abs(opinion/float(len(t.sentences)))
 def collect_pronouns(t):
     pcons = []
     sent_index = 0

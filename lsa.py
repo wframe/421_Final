@@ -41,14 +41,14 @@ if __name__ == '__main__':
 
 	with io.open(r'lsa.txt', 'w+', encoding='utf-8') as w:
 		for i,concept in enumerate(m.lsa.concepts):
-			#print("Concept {0}:".format(i)),
+			print("Concept {0}:".format(i)),
 			w.write(unicode("Concept {0}:".format(i)))
 			count = 0
 
 			# Show top only first 5 features we come across
 			for feature, weight in m.lsa.concepts[i].items(): 
 				if abs(weight) > 0.2:
-					#print(feature),
+					print(feature),
 					w.write(feature + " ")
 					count += 1
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 				cat = (0,0, {})
 				#print d.name.split('\\')[-1]
 				for idx,weight in m.lsa.vectors[d.id].items():
-					#print "\tCat {0}: {1}".format(idx, weight)
+					print "\tCat {0}: {1}".format(idx, weight)
 					if abs(weight) > abs(cat[1]) or cat[1] == 0:
 						cat = (idx,weight,d)
 

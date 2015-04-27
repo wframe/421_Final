@@ -14,8 +14,7 @@ def stdev(numbers):
 	avg = mean(numbers)
 	variance = sum([pow(x-avg,2) for x in numbers])/float(len(numbers)-1)
 	return math.sqrt(variance)
-
-essay_path = 'essays/original/high'
+essay_path = 'essays/original/low'
 essay_path = path.abspath(essay_path)
 files = []
 
@@ -58,10 +57,18 @@ if __name__ == '__main__':
 	    files.extend(filenames)
 	    break
     returns = []
-    for fname in files:
-        returns.append(process_file(essay_path + '\\' + fname))
-    print(str(mean(returns)))
-    print '{0}'.format(fname)
+    paths = ['essays/original/low','essays/original/medium','essays/original/high']
+    for p in paths:
+        essay_path = path.abspath(p)
+        files = []
+        for (dirpath, dirnames, filenames) in walk(essay_path):
+	        files.extend(filenames)
+	        break
+        for fname in files:
+            returns.append(process_file(essay_path + '\\' + fname))
+        for param in map(list, zip(*returns)):
+            print(str(mean(param)))
+    #print '{0}'.format(fname)
     misspelled = 0
     #misspelled, agreement, verb, sents = process_file(file_path)                             
         #print "\t1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}\n\t3a (sentence count): {3}".format(misspelled, agreement, verb, sents)
