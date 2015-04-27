@@ -1,40 +1,5 @@
-Concept 0:richer 
-	37662.txt - -1.0
-Concept 1:spain 
-	40863.txt - -1.0
-Concept 2:co2 
-	30159.txt - -1.0
-Concept 3:cars 
-	22698.txt - 0.760319138705
-Concept 4:aall inda 
-	35984.txt - -1.0
-Concept 5:india metros china 
-	36239.txt - 0.824566053412
-Concept 6:britain brazil metros france europe amazon 
-	52054.txt - -0.684407155528
-Concept 7:technology korean korea solar 
-	11717.txt - -1.0
-Concept 8:metros europe amazon china america south 
-	33857.txt - 0.616945350312
-Concept 9:beijing london taiwan mumbai york taipei 
-	68592.txt - 0.969101619604
-Concept 10:major oil petroleum usage car 
-	30584.txt - -0.986234664325
-Concept 11:india britain brazil metros france euro 
-	23062.txt - 0.721185193719
-Concept 12:paris peace annan united york kofi 
-	12533.txt - 0.928092743204
-Concept 13:iv public delhi statistics iii euro 
-	32672.txt - 0.86503087116
-Concept 14:earth 
-	32900.txt - -0.765383128438
-Concept 15:india metros china 
-	14397.txt - 1.0
-Concept 16:london petroleum usage 
-	78264.txt - 1.0
-Concept 17:britain brazil france 
-	71654.txt - 1.0
-Concept 18:beijing taipei 
-	66233.txt - 1.0
-Concept 19:peace solar 
-	11580.txt - -1.0
+Concept 0:Concept 1:Concept 2:Concept 3:Concept 4:Concept 5:Concept 6:Concept 7:Concept 8:Concept 9:Concept 10:Concept 11:Concept 12:Concept 13:Concept 14:Concept 15:Concept 16:Concept 17:Concept 18:Concept 19:Concept 20:Concept 21:Concept 22:Concept 23:Concept 24:Concept 25:Concept 26:Concept 27:Concept 28:Concept 29:countrys 
+	37662.txt - 0.375234334079
+	30159.txt - 0.364454944537
+	22597.txt - 0.296439340976
+	40863.txt - 0.114387392341

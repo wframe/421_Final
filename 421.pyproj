@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0558223e-f3e5-4051-bebc-7c260ef0c17c}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>grader.py</StartupFile>
+    <StartupFile>bag_of_words.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -121,6 +121,9 @@
     <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bag_of_words.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="entity_recognition.py" />
     <Compile Include="handlers\newshandler.py" />
     <Compile Include="handlers\__init__.py" />
