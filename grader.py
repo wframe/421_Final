@@ -7,8 +7,15 @@ from os import walk, path
 import sys
 import pos
 import textcoherence as tc
+import math, random
+def mean(numbers):
+    return sum(numbers)/float(len(numbers))
+def stdev(numbers):
+	avg = mean(numbers)
+	variance = sum([pow(x-avg,2) for x in numbers])/float(len(numbers)-1)
+	return math.sqrt(variance)
 
-essay_path = 'essays/original/low'
+essay_path = 'essays/original/high'
 essay_path = path.abspath(essay_path)
 files = []
 
@@ -18,42 +25,43 @@ def process_file(file_path):
     ovr_agreementscore = 0.0
     ovr_verbscore = 0.0
     with open(file_path, 'r') as f:
-		# get misspellings
         t = TextBlob(f.read())
-        sents = t.sentences 
-        for sent in sents:
-	        for word in sent.tokens:
-		        if len(word) > 0 and correct(word) != word:
-			        misspellings.append(word)
-			        misspelled += 1
-
-		# get agreemnet & verb scores
-		word_count = 0
-		agreementscore = 0.0
-		verbscore = 0.0
-		for sent in sents:
-			tags = pos.get_sentence_tags(sent.string)
-			agreementscore += pos_agreement(tags)
-			verbscore += pos_verbs(tags)
-			word_count+=len(tags)                  
-		agreementscore /= word_count
-		verbscore/= word_count
+        sents = t.sentences
         cohesion = tc.coherence(t)
-	
-	return (misspelled, agreementscore, verbscore, len(sents))
+        return cohesion
+        # get misspellings 
+        #for sent in sents:
+	       # for word in sent.tokens:
+		      #  if len(word) > 0 and correct(word) != word:
+			     #   misspellings.append(word)
+			     #   misspelled += 1
+		# get agreemnet & verb scores
+ #       word_count = 0
+ #       agreementscore = 0.0
+ #       verbscore = 0.0
+ #       for sent in sents:
+	#        tags = pos.get_sentence_tags(sent.string)
+	#        agreementscore += pos_agreement(tags)
+	#        verbscore += pos_verbs(tags)
+	#        word_count+=len(tags)                  
+ #       agreementscore /= word_count
+ #       verbscore/= word_count
+        
+	#return (misspelled, agreementscore, verbscore, len(sents))
 
 if __name__ == '__main__':
-	print "main"
-	if len(sys.argv) > 1:
-		essay_path = path.abspath(sys.argv[1])
+    print "main"
+    if len(sys.argv) > 1:
+	    essay_path = path.abspath(sys.argv[1])
 
-	for (dirpath, dirnames, filenames) in walk(essay_path):
-		files.extend(filenames)
-		break
-
-	for fname in files:
-		print '{0}'.format(fname)
-		misspelled = 0
-		file_path = essay_path + '\\' + fname
-		misspelled, agreement, verb, sents = process_file(file_path)
-		print "\t1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}\n\t3a (sentence count): {3}".format(misspelled, agreement, verb, sents)
+    for (dirpath, dirnames, filenames) in walk(essay_path):
+	    files.extend(filenames)
+	    break
+    returns = []
+    for fname in files:
+        returns.append(process_file(essay_path + '\\' + fname))
+    print(str(mean(returns)))
+    print '{0}'.format(fname)
+    misspelled = 0
+    #misspelled, agreement, verb, sents = process_file(file_path)                             
+        #print "\t1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}\n\t3a (sentence count): {3}".format(misspelled, agreement, verb, sents)

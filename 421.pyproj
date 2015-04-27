@@ -114,9 +114,18 @@
     <Content Include="essays\tokenized\medium\29693.txt" />
     <Content Include="essays\tokenized\medium\7965.txt" />
     <Content Include="frankenfile.txt" />
+    <Content Include="handlers\headlines.txt" />
+    <Content Include="handlers\headlines_not.txt" />
+    <Content Include="handlers\headline_regions.txt" />
+    <Content Include="handlers\__init__.pyc" />
     <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="entity_recognition.py" />
+    <Compile Include="handlers\newshandler.py" />
+    <Compile Include="handlers\__init__.py" />
+    <Compile Include="lsa.py" />
+    <Compile Include="pageparser.py" />
     <Compile Include="pronouns.py">
       <SubType>Code</SubType>
     </Compile>
@@ -140,6 +149,7 @@
     <Folder Include="essays\tokenized\high" />
     <Folder Include="essays\tokenized\low" />
     <Folder Include="essays\tokenized\medium" />
+    <Folder Include="handlers\" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
