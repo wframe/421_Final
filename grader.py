@@ -4,6 +4,7 @@ from textblob 		  import TextBlob, Blobber
 from textblob.parsers import PatternParser
 from textblob.taggers import PatternTagger
 from test import pos_agreement, pos_verbs, pos_global_verbs
+from clean.scoring import syntax, topicality
 from os import walk, path
 import sys
 import pos
@@ -42,7 +43,8 @@ def process_file(file_path):
     ovr_agreementscore = 0.0
     ovr_verbscore = 0.0
     with open(file_path, 'r') as f:
-        t = TextBlob(f.read())
+        text = f.read()
+        t = TextBlob(text)
         sents = t.sentences
         cohesion = tc.coherence(t)
         #get misspellings
@@ -59,8 +61,13 @@ def process_file(file_path):
         for sent in sents:
             tags = pos.get_sentence_tags(sent.string)
             agreementscore += pos_agreement(tags)/len(t.words)
-            verbscore += gverbs+ (pos_verbs(tags)/len(t.words))                         
-	return [misspelled, agreementscore, verbscore, cohesion[0], cohesion[1], len(sents)]
+            verbscore += gverbs+ (pos_verbs(tags)/len(t.words))
+
+        parse_score = syntax.syntactic_score(text)
+        topic_score = topicality.topicality_score(text)
+
+
+	return [misspelled, agreementscore, verbscore, cohesion[0], cohesion[1], len(sents), parse_score, topic_score]
 
 if __name__ == '__main__':
     returns = []
@@ -82,44 +89,9 @@ if __name__ == '__main__':
 	        break
         for fname in files:
             returns.append(process_file(essay_path + '\\' + fname))
-        #for param in map(list, zip(*returns)):
-        #    print(str(mean(param)))
-        #    print(str(stdev(param)))   
-        #    ret = process_file(essay_path + '\\' + fname)
-        #    paramStats = []
-        #    spellingStats= (55.9833, 19.5114)
-        #    agreementStats = (.2078, .095)
-        #    verbStats = (.06556, .03331)
-        #    #parseStats = 
-        #    pronsStats = (-3.3233,6.0137)
-        #    topicalityStats = (.4816,.1227 )
-        #    lengthStats = (13.4667, 6.4924)
-        #    paramStats.append(spellingStats)
-        #    paramStats.append(agreementStats)
-        #    paramStats.append(verbStats)
-        #    #paramStats.append(parseStats)
-        #    paramStats.append(pronsStats)
-        #    paramStats.append(topicalityStats)
-        #    paramStats.append(lengthStats)
-
-        #    fscore = 0
-        #    fscores = []
-        #    label = 0
-        #    j = 0
-        #    for param in ret:
-        #        fscores.append(computeZ(param, paramStats[j][0], paramStats[j][1]))
-        #        j+=1
-        #    fscore +=  fscores[0] + fscores[1] + fscores[2] + (2*fscores[3]) + (3*fscores[4]) + (2*fscores[5])
-        #    if fscore < -10:
-        #        label = -1
-        #    elif fscore < 10:
-        #        label = 0
-        #    else:
-        #        label = 1
-        #    print('fscore: {}'.format(fscore))                        
-        #i+=1
     for param in map(list, zip(*returns)):
         print(str(mean(param)))
+        print(str(stdev(param)))
 
     #print '{0}'.format(fname)
                            
