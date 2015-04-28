@@ -14,6 +14,11 @@ REQUIREMENTS:
 
 		Note that this version of our project is glacially slow, mostly due to the stanford parser
 
+		If you are unable to get the parser installed or are receving java errors from python, the project can still be run by replacing line 66 in grader.py:
+			parse_score = syntax.syntactic_score(text)
+		with:
+			parse_score = 0
+
 EXECUTION:
 	Run:
 		python grader.py

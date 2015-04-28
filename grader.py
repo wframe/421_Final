@@ -63,7 +63,7 @@ def process_file(file_path):
 			agreementscore += pos_agreement(tags)/len(t.words)
 			verbscore += gverbs+ (pos_verbs(tags)/len(t.words))
 
-		parse_score = 0#syntax.syntactic_score(text)
+		parse_score = syntax.syntactic_score(text)
 		topic_score = topicality.topicality_score(text)
 
 
