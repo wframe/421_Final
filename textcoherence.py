@@ -1,3 +1,4 @@
+from __future__ import division
 import pronouns as pro
 from pattern.text.en import parse
 import nltk
@@ -5,7 +6,7 @@ import nltk
 def coherence(t):
     sentence_data = map(collect_sentence_data, t.sentences)
     pcontext = collect_pronouns(t)
-    pronoun_score = process_pronouns(pcontext, sentence_data)
+    pronoun_score = process_pronouns(pcontext, sentence_data, t)
     topic_score = topicality(t)
     return pronoun_score, topic_score
 def topicality(t):
@@ -21,6 +22,8 @@ def collect_pronouns(t):
     for sent in t.sentences:
         word_index = 0
         for word in sent.tokens:
+            #if word in pro.masc or word in pro.fem:
+                
             if word in pro.t_pers:
                 pcons.append((word, sent_index, word_index))
             word_index +=1
@@ -89,23 +92,28 @@ def collect_sentence_data(sent):
             noun_list = []
         i+=1                        
     return nphrase_list
-def process_pronouns(pcons, sd):
+def process_pronouns(pcons, sd, t):
     score = 0
     sing_score = 0
     plur_score = 0
+    plurs = 0
     for pcon in pcons:
         if isSingular(pcon[0]):
             pass
             #sing_score += process_singular(pcon)
         else:
-            plur_score += process_plural(pcon, sd)
-    return plur_score
+            plur_score += process_plural(pcon, sd, t)
+            plurs+=1
+    if plurs > 0:
+        return plur_score/plurs
+    else:
+        return 0
 def isSingular(p):
     return p not in pro.plur
 def process_singular(pcon):
     #check_for_singular_antecedent
     pass
-def process_plural(pcon, sd):
+def process_plural(pcon, sd, t):
     curr = pcon[1]
     chain = [x for x in sd if sd.index(x) >= curr - 2 and sd.index(x) <= curr]   
     isCurr = True
@@ -140,7 +148,7 @@ def process_plural(pcon, sd):
                 for noun in reversed(phrase[1]):
                     if mostRecent:
                         if noun[1] == 'Sing':
-                            score += -2.0/distance_from_curr
+                            score += -1.0/distance_from_curr
                         elif phrase[0] == 0:                                                                 
                             score += 2.0/distance_from_curr                                 
                         else:
@@ -148,7 +156,7 @@ def process_plural(pcon, sd):
                         mostRecent = False
                     else:
                         if noun[1] == 'Sing':
-                            score += -1.0/distance_from_curr
+                            score += -.5/distance_from_curr
                         elif phrase[0] == 0:                                                      
                             score += 1.0/distance_from_curr                                 
                         else:

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0558223e-f3e5-4051-bebc-7c260ef0c17c}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>bag_of_words.py</StartupFile>
+    <StartupFile>grader.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
