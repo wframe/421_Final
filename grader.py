@@ -1,30 +1,30 @@
 from __future__ import division
-from spellcheck import correct, words
-from textblob 		  import TextBlob, Blobber
+from src              import *
+from src.test         import pos_agreement, pos_verbs, pos_global_verbs
+from src.scoring      import syntax, topicality
+from src.spellcheck   import correct, words
+from textblob         import TextBlob, Blobber
 from textblob.parsers import PatternParser
 from textblob.taggers import PatternTagger
-from test import pos_agreement, pos_verbs, pos_global_verbs
-from clean.scoring import syntax, topicality
-from os import walk, path
+from pattern.en import tag as tag_sent
+from os               import walk, path
+import src.textcoherence as tc
 import sys
-import pos
-import textcoherence as tc
+import src.pos as pos
 import math, random
+
 #precomputed training means
-spellingMean = 55.9833
-spellingSDev = 19.5114
-agreementMean = .2078
-agreementSDev = .095
-verbsMean = .06556
-verbsSDev = .03331
-parseMean = -3.3233
-parseSDev = 6.0137
-pronsMean = 0
-pronsSDev = 0
-topicalityMean = .4816
-topicalitySDev = .1227 
-lengthMean = 13.4667
-lengthSDev = 6.4924
+paramStats = []
+spellingStats= (55.9833, 19.5114)
+agreementStats = (.2059, .0934)
+verbStats = (.06556, .03331)
+parseStats =  (0, 1)
+pronsStats = (-3.3233,6.0137)
+topicalityStats = (.4816,.1227 )
+lengthStats = (13.4667, 6.4924)
+
+
+
 def mean(numbers):
     return sum(numbers)/float(len(numbers))
 def stdev(numbers):
@@ -43,7 +43,7 @@ def process_file(file_path):
     ovr_agreementscore = 0.0
     ovr_verbscore = 0.0
     with open(file_path, 'r') as f:
-        text = f.read()
+        text = unicode(f.read())
         t = TextBlob(text)
         sents = t.sentences
         cohesion = tc.coherence(t)
@@ -59,15 +59,15 @@ def process_file(file_path):
         agreementscore = 0.0
         verbscore = 0.0
         for sent in sents:
-            tags = pos.get_sentence_tags(sent.string)
+            tags = tag_sent(sent.string)
             agreementscore += pos_agreement(tags)/len(t.words)
             verbscore += gverbs+ (pos_verbs(tags)/len(t.words))
 
-        parse_score = syntax.syntactic_score(text)
+        parse_score = 0#syntax.syntactic_score(text)
         topic_score = topicality.topicality_score(text)
 
 
-	return [misspelled, agreementscore, verbscore, cohesion[0], cohesion[1], len(sents), parse_score, topic_score]
+	return (misspelled, agreementscore, verbscore, cohesion[0], cohesion[1], len(sents), parse_score, topic_score)
 
 if __name__ == '__main__':
     returns = []
@@ -77,22 +77,18 @@ if __name__ == '__main__':
     for (dirpath, dirnames, filenames) in walk(essay_path):
 	    files.extend(filenames)
 	    break
-    paths = ('essays/original/low','essays/original/medium','essays/original/high')
+    paths = ('input/original',)
     #for testing
     i = -1
-    for p in paths:
-        print(p)
-        essay_path = path.abspath(p)
-        files = []
-        for (dirpath, dirnames, filenames) in walk(essay_path):
-	        files.extend(filenames)
-	        break
-        for fname in files:
-            returns.append(process_file(essay_path + '\\' + fname))
-    for param in map(list, zip(*returns)):
-        print(str(mean(param)))
-        print(str(stdev(param)))
-
-    #print '{0}'.format(fname)
-                           
-        #print "\t1a (spelling errs): {0}\n\t1b (agreement errs): {1}\n\t1c (verb errs): {2}\n\t3a (sentence count): {3}".format(misspelled, agreement, verb, sents)
+    with open(r'output\result.txt', 'w+') as out:
+        for p in paths:
+            print(p)
+            essay_path = path.abspath(p)
+            files = []
+            for (dirpath, dirnames, filenames) in walk(essay_path):
+	           files.extend(filenames)
+	           break
+            for fname in files:
+                tup = process_file(essay_path + '\\' + fname)
+                out.write("%s" % (tup,))
+                out.write('\n')
