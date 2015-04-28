@@ -4,13 +4,14 @@ import pos
 import grammarcheck as gr
 from itertools import tee, islice, chain, izip
 from os import path
+import pattern as pat
 #http://stackoverflow.com/questions/1011938/python-previous-and-next-values-inside-a-loop
 def previous_and_next(some_iterable):
     prevs, items, nexts = tee(some_iterable, 3)
     prevs = chain([None], prevs)
     nexts = chain(islice(nexts, 1, None), [None])
     return izip(prevs, items, nexts)
-    
+
 def test_tag_performance():
     fis_arr = [fi.recGetTextFiles(path.abspath(r'essays\original\low')),
                 fi.recGetTextFiles(path.abspath(r'essays\original\medium')),
@@ -34,7 +35,7 @@ def test_tag_performance():
                 verbscore += pos_verbs(tags)
                 words+=len(tags)
             ovr_agreementscore += agreementscore/words
-            ovr_verbscore += (verbscore + pos_global_verbs(taglist)*10)/words
+            ovr_verbscore += (verbscore + pos_global_verbs(taglist))/words
         agreementscores.append(ovr_agreementscore)
         verbscores.append(ovr_verbscore)
     print("low agreement score: " + str(agreementscores[0]))
@@ -88,25 +89,28 @@ def pos_verbs(tags):
     for previous, current, nxt in  previous_and_next(tags):
         if not present and current in pres_tags:
             errors += 1
+        else:
+            errors -= 1
 
         if current in verb_tags:
             verb_count += 1
         elif current == "CC":
             if verb_count == 0:
-                errors += 1
+                errors += 6
             verb_count = 0
 
     if verb_count == 0:
-        errors += 1
+        errors += 3
     return errors
 
-def pos_global_verbs(taglists):
+def pos_global_verbs(tags):
     verbs = 0
     pastverbs = 0
-    for taglist in taglists:
-        for tag in taglist:
-            if tag in ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]:
-                verbs += 1
-                if tag not in ['VB','VBZ','VBP','VBG']:
-                    pastverbs += 1
-    return abs((pastverbs/verbs)-1)
+    for tag in tags:
+        if tag[1] in ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"]:
+            verbs += 1
+            if tag[1] not in ['VB','VBZ','VBP','VBG']:
+                pastverbs += 1
+    return 2*((pastverbs/verbs))
+if __name__ == '__main__':
+    test_tag_performance()
