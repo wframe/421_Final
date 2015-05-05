@@ -88,35 +88,6 @@ def pos_global_verbs(taglists):
                 pastverbs += 1
     return abs((pastverbs/verbs)-1)
 
-def agreement_score(text):
-    t = TextBlob(text)
-    agreementscore = 0.0
-    for sent in t.sentences:
-        tags = sent.tags
-        agreementscore += pos_agreement(tags)               
-    agreementscore /= len(t.words)
-    return agreementscore
-
-def verb_tense_score(text):
-    t = TextBlob(text)
-    verbscore = 0.0
-    for sent in t.sentences:
-        tags = sent.tags
-        verbscore += pos_verbs(tags) 
-    verbscore/= len(t.words)
-    return verbscore
-
-def misspelling_score(text):
-    misspellings = 0
-    t = TextBlob(text)
-    for w in t.words:
-        if correct(w) != w:
-            misspellings += 1
-    print "\t{0} miss in {1} words".format(misspellings, len(t.words))
-    return misspellings/len(t.words)
-
-def sentences_score(text):
-    return len(TextBlob(text).sentences)
 def mean(numbers):
 	return sum(numbers)/float(len(numbers))
 def stdev(numbers):
@@ -143,8 +114,8 @@ if __name__ == '__main__':
 					agree += (pos_agreement(tags)/len(tags))
 			gverb_sums.append(gverbs)
 			lverb_sums.append(lverbs)
-			agree_sums.append(lverbs)
-			verb_sums.append(computeZ(lverbs,-.941085997745,.686621431068)+computeZ(gverbs, .881815018201, .0764697386088))
+			agree_sums.append(agree)
+			verb_sums.append(computeZ(lverbs,-.941085997745,.6866)+computeZ(gverbs, .882, .0765))
 	print('lverb mean' + str(mean(lverb_sums)))
 	print('lverb stdv' + str(stdev(lverb_sums)))
 	print('gverb mean' + str(mean(gverb_sums)))
@@ -153,5 +124,3 @@ if __name__ == '__main__':
 	print('z computed stdv' + str(stdev(verb_sums)))
 	print('agree mean' + str(mean(agree_sums)))
 	print('agree stdv' + str(stdev(agree_sums)))
-	print('predicted mean : -.06')
-	print('predicted stdev : 1.6')

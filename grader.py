@@ -41,8 +41,7 @@ files = []
 def process_file(file_path):
 	misspelled = 0
 	misspellings = []
-	ovr_agreementscore = 0.0
-	ovr_verbscore = 0.0
+
 	with open(file_path, 'r') as f:
 		text = unicode(f.read())
 		t = TextBlob(text)
@@ -61,10 +60,13 @@ def process_file(file_path):
 		verbscore = gverbs 
 		for sent in sents:
 			tags = tag_sent(sent.string)
-			agreementscore += pos_agreement(tags)
+			agreementscore += pos_agreement(tags)/len(tags)
 			verbscore += (pos_verbs(tags)/len(tags))
 		#parse_score = syntax.syntactic_score(text)
 		parse_score = 0
+
+		verbscore = 0
+		
 		#topic_score = topicality.topicality_score(text)
 		topic_score = tc.topicality(text,file_path)
 
@@ -100,7 +102,10 @@ if __name__ == '__main__':
 				paramStats = []
 				spellingStats= (-55.9833, 19.5114)
 				agreementStats = (-.9411, .6866)
-				verbStats = (0, 1.3521)
+				#verbStats = (0, 1.3521)
+				verb1Stats = (-.9411,)
+				verb2Stats = (0, 1.3521)
+				verbStats = (0, 1)
 				parseStats =  (0, 1)
 				pronsStats = (-3.3233,6.0137)
 				#topicalityStats = (.4816,.1227 )
@@ -121,7 +126,7 @@ if __name__ == '__main__':
 				for param in ret:
 					fscores.append(computeZ(param, paramStats[j][0], paramStats[j][1]))
 					j+=1
-				fscore +=  (1*fscores[0]) + (1*fscores[1]) + 1*fscores[2] + (2*fscores[3]) + (2*fscores[4]) + (3*fscores[5]) + (3*fscores[6])
+				fscore +=  (1*fscores[0]) + (1*fscores[1]) + .5*fscores[2] + .5*fscores[3] + (2*fscores[4]) + (2*fscores[5]) + (3*fscores[6]) + (3*fscores[7])
 				if fscore < -4.74:
 					label = 0
 				elif fscore < 4.74:
