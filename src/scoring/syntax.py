@@ -4,13 +4,13 @@ from textblob 	import TextBlob
 import os
 import nltk
 
-ROOT_DIR = r'C:\Users\maxfa_000\Documents\421'
-JAVA_HOME =  r"C:\Program Files\Java\jre1.8.0_25\bin\java.exe"
+ROOT_DIR = r'C:\Users\William\Desktop\421_Final'
+JAVA_HOME =  r"C:\Program Files\Java\jre1.8.0_45\bin\java.exe"
 
 os.environ['STANFORD_PARSER'] = ROOT_DIR + r'\src\scoring\stanford-parser'
 os.environ['STANFORD_MODELS'] = ROOT_DIR + r'\src\scoring\stanford-parser'
 os.environ['JAVA_HOME']		  = JAVA_HOME
-parser = stanford.StanfordParser(model_path=os.environ['STANFORD_PARSER'] + r"\edu\stanford\nlp\models\lexparser\englishPCFG.ser.gz")
+#parser = stanford.StanfordParser(model_path=os.environ['STANFORD_PARSER'] + r"\edu\stanford\nlp\models\lexparser\englishPCFG.ser.gz")
 
 def syntactic_score(text):
 	t = TextBlob(text)

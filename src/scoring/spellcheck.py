@@ -1,5 +1,5 @@
 import re, collections
-
+from os import path
 def words(text):
     return re.findall('[a-z]+', text.lower())
 
@@ -10,7 +10,7 @@ def train(features):
     return model
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
-NWORDS = train(words(file('scoring/frankenfile.txt').read()))
+NWORDS = train(words(file(path.abspath('src/scoring/frankenfile.txt')).read()))
 
 def edits1(word):
     s = [(word[:i], word[i:]) for i in range(len(word) + 1)]

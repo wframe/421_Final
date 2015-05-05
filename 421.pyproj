@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{83cb8035-6e4b-4f3a-9777-01f548842406}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>grader.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="input\original\106467.txt" />
+    <Content Include="input\original\107740.txt" />
+    <Content Include="input\original\129378.txt" />
+    <Content Include="input\original\131324.txt" />
+    <Content Include="input\original\136346.txt" />
+    <Content Include="input\original\14471.txt" />
+    <Content Include="input\original\145666.txt" />
+    <Content Include="input\original\156373.txt" />
+    <Content Include="input\original\157324.txt" />
+    <Content Include="input\original\162705.txt" />
+    <Content Include="input\original\167937.txt" />
+    <Content Include="input\original\216219.txt" />
+    <Content Include="input\original\22249.txt" />
+    <Content Include="input\original\229796.txt" />
+    <Content Include="input\original\229813.txt" />
+    <Content Include="input\original\231566.txt" />
+    <Content Include="input\original\5105.txt" />
+    <Content Include="input\original\59730.txt" />
+    <Content Include="input\original\81218.txt" />
+    <Content Include="input\original\92842.txt" />
+    <Content Include="output\result.txt" />
+    <Content Include="README.txt" />
+    <Content Include="src\big.txt" />
+    <Content Include="src\corncob_lowercase.txt" />
+    <Content Include="src\frankenfile.txt" />
+    <Content Include="src\intersection_entity14.txt" />
+    <Content Include="src\lsa.txt" />
+    <Content Include="src\README.txt" />
+    <Content Include="src\scoring\frankenfile.txt" />
+    <Content Include="training\high\110026.txt" />
+    <Content Include="training\high\11580.txt" />
+    <Content Include="training\high\116465.txt" />
+    <Content Include="training\high\11717.txt" />
+    <Content Include="training\high\118490.txt" />
+    <Content Include="training\high\121238.txt" />
+    <Content Include="training\high\12533.txt" />
+    <Content Include="training\high\125794.txt" />
+    <Content Include="training\high\132028.txt" />
+    <Content Include="training\high\138102.txt" />
+    <Content Include="training\high\14397.txt" />
+    <Content Include="training\high\22698.txt" />
+    <Content Include="training\high\23062.txt" />
+    <Content Include="training\high\30159.txt" />
+    <Content Include="training\high\30584.txt" />
+    <Content Include="training\high\32672.txt" />
+    <Content Include="training\high\32900.txt" />
+    <Content Include="training\high\33857.txt" />
+    <Content Include="training\high\35984.txt" />
+    <Content Include="training\high\36239.txt" />
+    <Content Include="training\high\37662.txt" />
+    <Content Include="training\high\40863.txt" />
+    <Content Include="training\high\52054.txt" />
+    <Content Include="training\high\66233.txt" />
+    <Content Include="training\high\68592.txt" />
+    <Content Include="training\high\71654.txt" />
+    <Content Include="training\high\78264.txt" />
+    <Content Include="training\high\84242.txt" />
+    <Content Include="training\high\89896.txt" />
+    <Content Include="training\high\93909.txt" />
+    <Content Include="training\low\106467.txt" />
+    <Content Include="training\low\107740.txt" />
+    <Content Include="training\low\129378.txt" />
+    <Content Include="training\low\131324.txt" />
+    <Content Include="training\low\136346.txt" />
+    <Content Include="training\low\14471.txt" />
+    <Content Include="training\low\145666.txt" />
+    <Content Include="training\low\156373.txt" />
+    <Content Include="training\low\157324.txt" />
+    <Content Include="training\low\162705.txt" />
+    <Content Include="training\low\167937.txt" />
+    <Content Include="training\low\216219.txt" />
+    <Content Include="training\low\22249.txt" />
+    <Content Include="training\low\229796.txt" />
+    <Content Include="training\low\229813.txt" />
+    <Content Include="training\low\231566.txt" />
+    <Content Include="training\low\236609.txt" />
+    <Content Include="training\low\237519.txt" />
+    <Content Include="training\low\242486.txt" />
+    <Content Include="training\low\243923.txt" />
+    <Content Include="training\low\315607.txt" />
+    <Content Include="training\low\345396.txt" />
+    <Content Include="training\low\348018.txt" />
+    <Content Include="training\low\366908.txt" />
+    <Content Include="training\low\384115.txt" />
+    <Content Include="training\low\397882.txt" />
+    <Content Include="training\low\5105.txt" />
+    <Content Include="training\low\59730.txt" />
+    <Content Include="training\low\81218.txt" />
+    <Content Include="training\low\92842.txt" />
+    <Content Include="training\medium\10215.txt" />
+    <Content Include="training\medium\18772.txt" />
+    <Content Include="training\medium\22597.txt" />
+    <Content Include="training\medium\23897.txt" />
+    <Content Include="training\medium\23976.txt" />
+    <Content Include="training\medium\25431.txt" />
+    <Content Include="training\medium\26125.txt" />
+    <Content Include="training\medium\26917.txt" />
+    <Content Include="training\medium\29693.txt" />
+    <Content Include="training\medium\29789.txt" />
+    <Content Include="training\medium\30668.txt" />
+    <Content Include="training\medium\35420.txt" />
+    <Content Include="training\medium\36413.txt" />
+    <Content Include="training\medium\38979.txt" />
+    <Content Include="training\medium\39030.txt" />
+    <Content Include="training\medium\43322.txt" />
+    <Content Include="training\medium\44961.txt" />
+    <Content Include="training\medium\46849.txt" />
+    <Content Include="training\medium\48984.txt" />
+    <Content Include="training\medium\52674.txt" />
+    <Content Include="training\medium\54191.txt" />
+    <Content Include="training\medium\55857.txt" />
+    <Content Include="training\medium\57433.txt" />
+    <Content Include="training\medium\60196.txt" />
+    <Content Include="training\medium\61450.txt" />
+    <Content Include="training\medium\70027.txt" />
+    <Content Include="training\medium\70644.txt" />
+    <Content Include="training\medium\70965.txt" />
+    <Content Include="training\medium\73082.txt" />
+    <Content Include="training\medium\7965.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="grader.py" />
+    <Compile Include="src\bag_of_words.py" />
+    <Compile Include="src\entity_recognition.py" />
+    <Compile Include="src\file_io.py" />
+    <Compile Include="src\grammarcheck.py" />
+    <Compile Include="src\lsa.py" />
+    <Compile Include="src\pageparser.py" />
+    <Compile Include="src\pos.py" />
+    <Compile Include="src\pronouns.py" />
+    <Compile Include="src\scoring\scorer.py" />
+    <Compile Include="src\scoring\spellcheck.py" />
+    <Compile Include="src\scoring\syntax.py" />
+    <Compile Include="src\topicality.py" />
+    <Compile Include="src\scoring\__init__.py" />
+    <Compile Include="src\spellcheck.py" />
+    <Compile Include="src\test.py" />
+    <Compile Include="src\textcoherence.py" />
+    <Compile Include="src\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="input\" />
+    <Folder Include="input\original" />
+    <Folder Include="training\" />
+    <Folder Include="output" />
+    <Folder Include="src" />
+    <Folder Include="src\scoring" />
+    <Folder Include="training\high\" />
+    <Folder Include="training\low\" />
+    <Folder Include="training\medium\" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>
