@@ -1,7 +1,7 @@
 from __future__ import division
 from src              import *
-from src.test         import pos_agreement, pos_verbs, pos_global_verbs
 from src.scoring      import syntax, topicality
+from src.scoring.scorer import  pos_agreement, pos_verbs, pos_global_verbs
 from src.spellcheck   import correct, words
 from textblob         import TextBlob, Blobber
 from textblob.parsers import PatternParser
@@ -13,18 +13,6 @@ import sys
 import src.pos as pos
 import math, random
 import numpy
-
-#precomputed training means
-paramStats = []
-spellingStats= (55.9833, 19.5114)
-agreementStats = (.2059, .0934)
-verbStats = (.1218, .0761)
-parseStats =  (0, 1)
-pronsStats = (-3.3233,6.0137)
-#opinionStats = (.4816,.1227 )
-#relevanceStats = (124.74,26.63)
-topicalityStats = (25.926,5.469)
-lengthStats = (13.4667, 6.4924)
 
 def mean(numbers):
 	return sum(numbers)/float(len(numbers))
@@ -65,7 +53,6 @@ def process_file(file_path):
 				lverbs += (pos_verbs(sent.tags)/len(sent.tags))
 		#parse_score = syntax.syntactic_score(text)
 		parse_score = 0
-
 		
 		#topic_score = topicality.topicality_score(text)
 		topic_score = tc.topicality(text,file_path)
@@ -80,7 +67,7 @@ if __name__ == '__main__':
 	for (dirpath, dirnames, filenames) in walk(essay_path):
 		files.extend(filenames)
 		break
-	paths = ('input/original',)
+	paths = ('input/original/low',)
 	#paths = ('input/original/low','input/original/medium','input/original/high')
 	#for testing
 	i = -1
@@ -94,7 +81,7 @@ if __name__ == '__main__':
 			   break
 			for fname in files:
 				print "processing {0}...".format(fname)
-				param = process_file(essay_path + '\\' + fname)
+				#param = process_file(essay_path + '\\' + fname)
 
 				ret = process_file(essay_path + '\\' + fname)
 		
@@ -106,9 +93,9 @@ if __name__ == '__main__':
 				verb2Stats = (.8818,.0765)
 				parseStats =  (0, 1)
 				pronsStats = (-3.3233,6.0137)
-				#topicalityStats = (.4816,.1227 )
 				topicalityStats = (25.926,5.469)
 				lengthStats = (13.4667, 6.4924)
+
 				paramStats.append(spellingStats)
 				paramStats.append(agreementStats)
 				paramStats.append(verb1Stats)
@@ -126,9 +113,9 @@ if __name__ == '__main__':
 					fscores.append(computeZ(param, paramStats[j][0], paramStats[j][1]))
 					j+=1
 				fscore +=  (1*fscores[0]) + (1*fscores[1]) + .5*fscores[2] + .5*fscores[3] + (2*fscores[4]) + (2*fscores[5]) + (3*fscores[6]) + (3*fscores[7])
-				if fscore < -4.76:
+				if fscore < -5.59:
 					label = 0
-				elif fscore < 4.76:
+				elif fscore < 5.59:
 					label = 1
 				else:
 					label = 2
