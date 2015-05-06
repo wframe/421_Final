@@ -57,20 +57,19 @@ def process_file(file_path):
 		#get agreement & verb scores
 		word_count = 0
 		agreementscore = 0.0
-		verbscore = gverbs 
+		lverbs = 0
 		for sent in sents:
 			tags = tag_sent(sent.string)
 			agreementscore += pos_agreement(tags)/len(tags)
-			verbscore += (pos_verbs(tags)/len(tags))
+			lverbs += (pos_verbs(tags)/len(tags))
 		#parse_score = syntax.syntactic_score(text)
 		parse_score = 0
 
-		verbscore = 0
 		
 		#topic_score = topicality.topicality_score(text)
 		topic_score = tc.topicality(text,file_path)
 
-	return [misspelled, agreementscore, verbscore, parse_score, cohesion, topic_score, len(sents)]
+	return [misspelled, agreementscore, lverbs, gverbs, parse_score, cohesion, topic_score, len(sents)]
 
 if __name__ == '__main__':
 	returns = []
@@ -127,9 +126,9 @@ if __name__ == '__main__':
 					fscores.append(computeZ(param, paramStats[j][0], paramStats[j][1]))
 					j+=1
 				fscore +=  (1*fscores[0]) + (1*fscores[1]) + .5*fscores[2] + .5*fscores[3] + (2*fscores[4]) + (2*fscores[5]) + (3*fscores[6]) + (3*fscores[7])
-				if fscore < -5.59:
+				if fscore < -4.76:
 					label = 0
-				elif fscore < 5.59:
+				elif fscore < 4.76:
 					label = 1
 				else:
 					label = 2
