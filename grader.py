@@ -59,9 +59,10 @@ def process_file(file_path):
 		agreementscore = 0.0
 		lverbs = 0
 		for sent in sents:
-			tags = tag_sent(sent.string)
-			agreementscore += pos_agreement(tags)/len(tags)
-			lverbs += (pos_verbs(tags)/len(tags))
+			#tags = tag_sent(sent.string)
+			if len(sent.tags) > 0:
+				agreementscore += pos_agreement(sent.tags)/len(sent.tags)
+				lverbs += (pos_verbs(sent.tags)/len(sent.tags))
 		#parse_score = syntax.syntactic_score(text)
 		parse_score = 0
 
@@ -79,8 +80,8 @@ if __name__ == '__main__':
 	for (dirpath, dirnames, filenames) in walk(essay_path):
 		files.extend(filenames)
 		break
-	#paths = ('input/original/',)
-	paths = ('input/original/low','input/original/medium','input/original/high')
+	paths = ('input/original',)
+	#paths = ('input/original/low','input/original/medium','input/original/high')
 	#for testing
 	i = -1
 	with open(r'output\result.txt', 'w+') as out:
@@ -101,7 +102,6 @@ if __name__ == '__main__':
 				paramStats = []
 				spellingStats= (-55.9833, 19.5114)
 				agreementStats = (-.6203, .4153)
-				#verbStats = (0, 1.3521)
 				verb1Stats = (-.4315,.3996)
 				verb2Stats = (.8818,.0765)
 				parseStats =  (0, 1)

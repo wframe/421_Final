@@ -45,14 +45,13 @@ def relevance(file):
 
 	percepticon = PerceptronTagger()
 	cat_dict = defaultdict(int)
-	files = fio.recGetTextFiles(r'C:\Users\William\Desktop\421_Final\training')
+	files = fio.recGetTextFiles('training')
 	file_sum = 0
 	extended_text = ExtendText(file,percepticon)
 	word_count = 0
 	with open(file,'r') as f:
 		word_count = len(f.read().split())
 	for term in extended_text.split():
-		#learn below weights through experimentation
 		if term in hvs.keys():
 			file_sum += hvs[term]
 
