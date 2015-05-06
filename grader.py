@@ -101,11 +101,10 @@ if __name__ == '__main__':
 				#precomputed stats based on training data
 				paramStats = []
 				spellingStats= (-55.9833, 19.5114)
-				agreementStats = (-.9411, .6866)
+				agreementStats = (-.6203, .4153)
 				#verbStats = (0, 1.3521)
-				verb1Stats = (-.9411,)
-				verb2Stats = (0, 1.3521)
-				verbStats = (0, 1)
+				verb1Stats = (-.4315,.3996)
+				verb2Stats = (.8818,.0765)
 				parseStats =  (0, 1)
 				pronsStats = (-3.3233,6.0137)
 				#topicalityStats = (.4816,.1227 )
@@ -113,7 +112,8 @@ if __name__ == '__main__':
 				lengthStats = (13.4667, 6.4924)
 				paramStats.append(spellingStats)
 				paramStats.append(agreementStats)
-				paramStats.append(verbStats)
+				paramStats.append(verb1Stats)
+				paramStats.append(verb2Stats)
 				paramStats.append(parseStats)
 				paramStats.append(pronsStats)
 				paramStats.append(topicalityStats)
@@ -127,9 +127,9 @@ if __name__ == '__main__':
 					fscores.append(computeZ(param, paramStats[j][0], paramStats[j][1]))
 					j+=1
 				fscore +=  (1*fscores[0]) + (1*fscores[1]) + .5*fscores[2] + .5*fscores[3] + (2*fscores[4]) + (2*fscores[5]) + (3*fscores[6]) + (3*fscores[7])
-				if fscore < -4.74:
+				if fscore < -5.59:
 					label = 0
-				elif fscore < 4.74:
+				elif fscore < 5.59:
 					label = 1
 				else:
 					label = 2

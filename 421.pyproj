@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{83cb8035-6e4b-4f3a-9777-01f548842406}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>grader.py</StartupFile>
+    <StartupFile>src\scoring\scorer.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
